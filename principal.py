@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import psycopg2
 from configuration import *
 import webscraping
@@ -35,8 +34,7 @@ def set_url_busqueda(carga):
 
     carga["url_principal"] = WS_PORTAL_LABORAL_URL
     urlbusqueda = "/ofertas-de-trabajo/empleos-lima/?q=analista%20programador"
-    #hiro cambio en paginado
-    #https://www.mipleo.com.pe/ofertas-de-trabajo/empleos-lima/?q=analista%20programador&page=3&pag=3
+    
     paginado = "&page=^&pag=^"
 
     carga["url_prefix"] = carga["url_principal"] + urlbusqueda + paginado
@@ -48,8 +46,6 @@ def connect_bd():
     con = Connection(DB_HOST, DB_SERVICE, DB_USER, DB_PASSWORD)
     con.connect()
     return con
-
-#def delati_indeed()
 
 
 if __name__ == "__main__":
@@ -66,26 +62,7 @@ if __name__ == "__main__":
 
     set_url_busqueda(carga)
 
-
-    #id_carga es el id_webscraping
     carga["id_carga"] = controller.registrar_webscraping(con, carga)
-
-
-    #print("----control de datos-----")
-    #print(carga)
-    #print(carga["url_principal"])
-    #print(carga["url_prefix"])
-    #print(carga["url_sufix"])
-    #print(carga["pagina_inicial"])
-    #print(carga["cant_paginas"])
-    #print(carga["cant_ofertas"])
-    #print(carga["id_carga"])
-
-
-
-
-
-
 
     listaOferta = webscraping.scraping_ofertas(con, carga["url_principal"], carga["url_prefix"], carga["url_sufix"],
                                                carga["pagina_inicial"], carga["cant_paginas"], carga["cant_ofertas"],
@@ -93,18 +70,10 @@ if __name__ == "__main__":
 
 
     print('hiro')
-    #for i in range(len(listaOferta)):
-        #print(listaOferta[i])
-    print(listaOferta[0]["url"])
-        #print(listaOferta[i]["url"])
-        #print("/n")
-    print("/n")
-    #print('hiro')
-
     
-
-
+    print(listaOferta[0]["url"])
+       
+    print("/n")
+     
     webscraping.scraping_ofertadetalle(con,listaOferta)
 
-
-    #print(listaOferta)

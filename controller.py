@@ -16,21 +16,17 @@ class Controller:
         id = self.dbwebscraping.insert_webscraping(con, webscraping)
         return id
 
-    #Inserción directa
+    
     def registrar_oferta(self, con, oferta):
         idResult = self.dboferta.insert_oferta(con, oferta) 
         return idResult 
 
-    #Insercion ofertas_detalle
+    
     def registrar_oferta_detalle(self, con, oferta):
         idofertadetalle = self.dbofertadetalle.insert_ofertadetalle(con, oferta) 
         return idofertadetalle           
 
 
-
-
-
-    #Inserción por lista
     def registrar_ofertas(self, con, lista_oferta):
         print(len(lista_oferta))
         for oferta in lista_oferta:

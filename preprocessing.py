@@ -137,13 +137,12 @@ def normalize_words(words):
     words = remove_punctuation(words)
     words = replace_numbers(words)
     words = remove_stopwords(words)
-    words = delete_irrelevantwords(words)  # elimina palabras irrelevantes
-    # words = stemmer_spanish(words)#elimina palabras irrelevantes
+    words = delete_irrelevantwords(words) 
+    
     return words
 
 def normalize_sentences(sentences):
     sentences = translate_english_sentences(sentences)
-    #sentences = delete_sentence_one_word(sentences)
     sentencesNormalize = []
     for sentence in sentences:
         listWords = normalize_words(word_tokenize(sentence))
