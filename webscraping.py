@@ -30,18 +30,18 @@ def scraping_ofertas(con, url_principal, prefix_url, sufix_url, pagina_inicial, 
     i=1
     
     for i in range(pagina_inicial, cant_paginas):
-        print('xd')
-        print(prefix_url)
-        print('xd página')
+        #print('xd')
+        #print(prefix_url)
+        #print('xd página')
         
         url_pagina = prefix_url.replace('^',str(i))
-        print(url_pagina)
-        print('xd')
+        #print(url_pagina)
+        #print('xd')
 
          
 
         req = requests.get(url_pagina)
-        soup = BeautifulSoup(req.text, "lxml")
+        soup = BeautifulSoup(req.content.decode('utf-8','ignore'), "lxml")
 
 
         
@@ -69,22 +69,28 @@ def scraping_ofertas(con, url_principal, prefix_url, sufix_url, pagina_inicial, 
                 oferta["empresa"]=empresa.get_text()
             else:
                 oferta["empresa"]=''
+
+            zoneAd = el.find("span", {"class": "zoneAd"})
             
-            lugar   = el.find("span", {"class": "zoneAd"})
+            arrZoneAd = []
+            arrZoneAd = zoneAd.get_text().split('|')    
+            
+            lugar = arrZoneAd[0]
             if lugar!=None:                                            
-                oferta["lugar"]=lugar.get_text()
+                oferta["lugar"]=lugar
             else:
                 oferta["lugar"]=''                
 
-            salario = el.find("span", {"class": "salaryText"})            
+            salario = arrZoneAd[1].replace('Salario: ','')  
+            #print(salario)    
             if salario!=None:                                            
-                oferta["salario"]=salario.get_text()
+                oferta["salario"]=salario
             else:
-                oferta["salario"]='' 
+                oferta["salario"]='No informado' 
 
             
             reqDeta = requests.get(oferta["url"])            
-            soup_deta = BeautifulSoup(reqDeta.text, "lxml")
+            soup_deta = BeautifulSoup(reqDeta.content.decode('utf-8','ignore'), "lxml")
 
 
             
@@ -111,7 +117,7 @@ def scraping_ofertadetalle(con,oferta_detalle):
     for i in range(len(oferta_detalle)):
         oferta_detalle[i]["url"]
         oferta_detalle_re = requests.get(oferta_detalle[i]["url"])
-        bea = BeautifulSoup(oferta_detalle_re.text, "lxml")
+        bea = BeautifulSoup(oferta_detalle_re.content.decode('utf-8','ignore'), "lxml")
 
 
         parrafo=bea.find('div',attrs={'class':'description_item'}).find_all('p')

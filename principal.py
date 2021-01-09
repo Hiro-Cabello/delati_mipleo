@@ -35,7 +35,7 @@ def set_url_busqueda(carga):
     carga["url_principal"] = WS_PORTAL_LABORAL_URL
     urlbusqueda = "/ofertas-de-trabajo/empleos-lima/?q=analista%20programador"
     
-    paginado = "&page=^&pag=^"
+    paginado = "&page=^"
 
     carga["url_prefix"] = carga["url_principal"] + urlbusqueda + paginado
     carga["url_sufix"] = ""
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                                                carga["id_carga"])
 
 
-    print('hiro')
+    
     
     print(listaOferta[0]["url"])
        
